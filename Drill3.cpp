@@ -11,9 +11,9 @@ int main(){
 	cout << "Dear " << first_name << ", " << endl;
 	
 	cout << "\tHow are you? I am fine. I miss you." << endl;
-	cout << "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.\n"
-	"Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.\n" 
-	"Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.\n";
+	cout << "Adding a few lines of my choosing, because it\n"
+	"is my letter, and the drill did not specify it had to\n" 
+	"make sense. Lorem ipsum dolor sit amet?\n";
 	
 	cout << "Name of another friend: ";
 	cin >> friend_name;
