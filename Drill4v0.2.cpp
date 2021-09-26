@@ -6,8 +6,9 @@ int main () {
 	double largest = std::numeric_limits<double>::min();
 	string unit = "";
 	double valueInMeters;
-	double sumOfValues;
-	int count;
+	double sumOfValues = 0;
+	int count = 0;
+	vector<double> values;
 	
 	while (cin >> a >> unit && a != '|'){
 		/*if (a == '|' || b == '|'){
@@ -18,47 +19,45 @@ int main () {
 			//reject
 		}
 		else{
-			switch (unit){
-				case 'cm':
-				{
-					valueInMeters = a/100;
-					break;
-				}
-				case 'm':
-				{
-					valueInMeters = a;
-					break;
-				}
-				case 'in':
-				{
-					valueInMeters = a*2.54/100;
-					break;
-				}
-				case 'ft':
-				{
-					valueInMeters = a*12*2.54/100;
-					break;
-				}	
+			if (unit == "cm"){
+				valueInMeters = a/100;
 			}
+			else if (unit == "m"){
+				valueInMeters = a;
+			}
+			else if (unit == "in"){
+				valueInMeters = a*2.54/100;
+			}
+			else if (unit == "ft"){
+				valueInMeters = a*12*2.54/100;
+			}	
+			
+			values.push_back(valueInMeters);
+			sumOfValues += valueInMeters;
+			count++;
 			
 			if (valueInMeters <= smallest){
-				smallest = a;
+				smallest = valueInMeters;
 			}
 			if (valueInMeters >= largest){
-				largest = a;
+				largest = valueInMeters;
 			}
 		
 			cout << a << " " << unit;
-			if (a == smallest){
+			if (valueInMeters == smallest){
 				cout << " the smallest so far";
 			}
-			if (a == largest){
+			if (valueInMeters == largest){
 				cout << " the largest so far";
 			}
 			cout << endl;
 		}
 	}
-	cout << "Values entered: " << count << " Sum of Values: " << sumOfValues << endl;
 	cout << "Smallest value: " << smallest << " Largest value: " << largest << endl;
+	cout << "Values entered: " << count << " Sum of Values: " << sumOfValues << endl << endl;
+	sort(values);
+	for(double echoDouble : values){
+		cout << echoDouble << endl;
+	}
 	return 0;
 }
