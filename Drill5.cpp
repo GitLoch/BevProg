@@ -42,14 +42,15 @@ int main() {
 		//20.
 		//int i=0; int j = 9; while (i<10) ++i; if (j<i) cout << "Success!\n";
 		//21.
-		int x = 3; double d = 5/(x-2); if (d==2*x-1) cout << "Success!\n";
+		//int x = 3; double d = 5/(x-2); if (d==2*x-1) cout << "Success!\n";
 		//22.
-		
+		//string s = "Success!\n"; for (int i=0; i<=9; ++i) cout << s[i];
 		//23.
-		
+		//int i=0; while (i<10) ++i; if (10<=i) cout << "Success!\n";
 		//24.
-		
+		//int x = 4; double d = 5/(double)(x-2); if (d!=2*x+0.5) cout << "Success!\n";
 		//25.
+		cout << "Success!\n";
 		keep_window_open();
 		return 0;
 	}
