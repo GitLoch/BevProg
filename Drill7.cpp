@@ -14,14 +14,14 @@
 		Quit
 		Calculation Statement
 	Print:
-		=
+		; 			=
 	Quit:
 		x
 	Statement:
 		Declaration
 		Expression
 	Declaration:
-		"let" Name "=" Expression
+		"#" Name "=" Expression
 	Name:
 		string literal
 	Expression:
@@ -33,6 +33,9 @@
 		Term * Primary
 		Term / Primary
 		Term % Primary
+	SquareRoot:
+		SQRT( Primary)
+		SQRT( - Primary ) Nem értelmezett
 	Primary:
 		Number
 		( Expression )
@@ -52,7 +55,12 @@ constexpr char print = ';';
 constexpr char name = 'a';
 constexpr char let = 'L';
 constexpr char result = '=';
-const string declkey = "let"; //constexpr string since C++20 only
+constexpr char squareRoot = 's';
+constexpr char powerOf = 'p';
+const string sqrtKey = "sqrt";
+const string powKey = "pow";
+const string declkey = "#"; //constexpr string since C++20 only
+const string quitKey = "exit";
 
 //function declarations
 double expression();
@@ -151,7 +159,7 @@ Token Token_stream::get()
 	switch (ch)
 	{
 		case print:
-		case quit:
+		//case quit:
 		case '(':
 		case ')':
 		case '+':
@@ -160,6 +168,7 @@ Token Token_stream::get()
 		case '/':
 		case '%':
 		case '=':
+		case ',':
 			return Token(ch);
 		case '.':
 		case '0': case '1': case '2': case '3': case '4':
@@ -170,6 +179,9 @@ Token Token_stream::get()
     		cin >> val;
     		return Token(number, val);
     	}
+    	case '#':{
+    		return Token{let};
+    	}
     	default: 
     	{
     		if (isalpha(ch))
@@ -178,7 +190,10 @@ Token Token_stream::get()
     			s += ch;
     			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
     			cin.putback(ch);
-    			if (s == declkey) return Token{let};
+    			if (s == sqrtKey) return Token(squareRoot);
+    			if (s == powKey) return Token(powerOf);
+    			if (s == quitKey) return Token(quit);
+    			//if (s == declkey) return Token{let};
     			else if (is_declared(s))
     				return Token(number, get_value(s));
     			return Token{name,s};
@@ -232,10 +247,11 @@ int main()
 try {
 	cout << "Welcome to our simple calculator. Please enter expressions using floating-point numbers." << endl;
 	cout << "Available operators: +, -, *, /, (), %." << endl;
-	cout << "Use '=' to print result. Use 'x' to exit." << endl << endl;
+	cout << "Use ';' to print result. Use 'x' to exit." << endl << endl;   //=
 	
 	define_name("pi", 3.1415926535);
 	define_name("e", 2.7182818284);
+	define_name("k", 1000);
 	
 	calculate();
 
@@ -268,6 +284,18 @@ double primary()
 			return - primary();
 		case '+':
 			return primary();
+		case squareRoot:
+		{
+			double sresult = primary();
+			if (sresult < 0) error("Cannot take square root of negative value.");
+			else{
+				return sqrt(sresult);
+			}
+		}
+		case powerOf:
+		{
+			return primary();
+		}
 		default:
 			error("primary expected");
 	}
@@ -325,6 +353,16 @@ double expression()
 	{
 		switch(t.kind)
 		{
+			case ',':
+			{	
+				double multiplication = expression();
+				if (multiplication != floor(multiplication)){
+					error("Attempting to raise number to power of non-integer.");
+				}
+				left = pow(left, multiplication);
+				t = ts.get();
+				break;
+			}
 			case '+':
 				left += term();
 				t = ts.get();
