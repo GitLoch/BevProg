@@ -36,6 +36,8 @@
 	SquareRoot:
 		SQRT( Primary)
 		SQRT( - Primary ) Nem értelmezett
+	Sinus:
+	* 	sinusOfN( Primary )
 	Primary:
 		Number
 		( Expression )
@@ -56,8 +58,10 @@ constexpr char name = 'a';
 constexpr char let = 'L';
 constexpr char result = '=';
 constexpr char squareRoot = 's';
+constexpr char sinusOfN = 'u';
 constexpr char powerOf = 'p';
 const string sqrtKey = "sqrt";
+const string sinusKey = "sinusOfN";
 const string powKey = "pow";
 const string declkey = "#"; //constexpr string since C++20 only
 const string quitKey = "exit";
@@ -191,12 +195,13 @@ Token Token_stream::get()
     			while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
     			cin.putback(ch);
     			if (s == sqrtKey) return Token(squareRoot);
+    			if (s == sinusKey) return Token(sinusOfN);
     			if (s == powKey) return Token(powerOf);
     			if (s == quitKey) return Token(quit);
     			//if (s == declkey) return Token{let};
     			else if (is_declared(s))
     				return Token(number, get_value(s));
-    			return Token{name,s};
+				return Token{name,s};
     		}
     		error("Bad token");
     	}
@@ -291,6 +296,11 @@ double primary()
 			else{
 				return sqrt(sresult);
 			}
+		}
+		case sinusOfN:
+		{
+			double sresult = primary();
+			return sin(sresult);
 		}
 		case powerOf:
 		{
