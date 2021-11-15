@@ -9,9 +9,13 @@ struct Date {
 };
 
 Date::Date(int year, int month, int day){
-	y=year;
-	m=month;
-	d=day;
+	if (month < 1 || month > 12 || day < 1 || day > 31)
+		error("Invalid date.");
+	else{
+		y=year;
+		m=month;
+		d=day;
+	}
 }
 
 void Date::add_day(int n){
