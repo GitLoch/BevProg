@@ -18,9 +18,17 @@ void init_day(Date& dd, int y, int m, int d){
 
 void add_day(Date& dd, int n){
 	dd.d += n;
+	if (dd.d > 31){
+		dd.m+=dd.d/31;
+		dd.d=dd.d%31;
+	}
+	if (dd.m > 12){
+		dd.y+=dd.m/12;
+		dd.m=dd.m%12;
+	}
 }
 
-ostream& operator<<(ostream& os, const Date& d){
+ostream& operator<<(ostream& os, Date& d){
 	return os << '(' << d.y << ',' << d.m << ',' << d.d << ')';
 }
 

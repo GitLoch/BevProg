@@ -1,11 +1,16 @@
 #include "../std_lib_facilities.h"
 
-struct Date {
+class Date {
+private:
 	int y;
 	int m;
 	int d;
+public:
 	Date(int year, int month, int day);
 	void add_day(int n);
+	int month() { return m; }
+	int day() { return d; }
+	int year() { return y; }
 };
 
 Date::Date(int year, int month, int day){
@@ -31,7 +36,7 @@ void Date::add_day(int n){
 }
 
 ostream& operator<<(ostream& os, Date& d){
-	return os << '(' << d.y << ',' << d.m << ',' << d.d << ')';
+	return os << '(' << d.year() << ',' << d.month() << ',' << d.day() << ')';
 }
 
 int main(){
