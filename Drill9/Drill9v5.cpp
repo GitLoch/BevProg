@@ -41,8 +41,10 @@ void Date::add_day(int n){
 	}
 }
 
+vector<string> months = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+
 ostream& operator<<(ostream& os, const Date& d){
-	return os << '(' << d.year() << ',' << int(d.month()) << ',' << d.day() << ')';
+	return os << '(' << d.year() << ',' << months[int(d.month())-1] << ',' << d.day() << ')';
 }
 
 int main(){
