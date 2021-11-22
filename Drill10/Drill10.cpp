@@ -15,8 +15,6 @@ Point::Point(int xcoor, int ycoor){
 	y = ycoor;
 }
 
-vector<Point> original_points;
-vector<Point> processed_points;
 
 istream& operator>>(istream& is, Point& p){
 	char ch1, ch2, ch3;
@@ -45,7 +43,7 @@ bool operator!=(Point& a, Point& b){
 	}
 }
 
-void ReadFromStdin(){
+void ReadFromStdin(vector<Point>& original_points){
 	cout << "Hey, could you be a dear and input, say, SEVEN (x,y) pairs?" << endl;
 	Point p;
 	for (int i = 0; i < 7; i++){
@@ -60,7 +58,7 @@ void PrintPoints(vector<Point> p){
 	}
 }
 
-void PrintToFile(){
+void PrintToFile(vector<Point> original_points){
 	ofstream ofile {"mydata.txt"};
 	if (!ofile)
 		throw Cant_reach_file{};
@@ -70,7 +68,7 @@ void PrintToFile(){
 	ofile.close();
 }
 
-void ReadFromFile(){
+void ReadFromFile(vector<Point> original_points, vector<Point>& processed_points){
 	ifstream ifile {"mydata.txt"};
 	if (!ifile)
 		throw Cant_reach_file{};
@@ -91,12 +89,14 @@ void ComparePoints(vector<Point> p1, vector<Point> p2){
 }
 
 int main(){
+	vector<Point> original_points;
+	vector<Point> processed_points;
 	try{
-		ReadFromStdin();
+		ReadFromStdin(original_points);
 		cout << endl << "original points:" << endl;
 		PrintPoints(original_points);
-		PrintToFile();
-		ReadFromFile();
+		PrintToFile(original_points);
+		ReadFromFile(original_points, processed_points);
 		cout << endl << "original points:" << endl;
 		PrintPoints(original_points);
 		cout << endl << "processed points:" << endl;
